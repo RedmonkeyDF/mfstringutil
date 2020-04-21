@@ -26,3 +26,29 @@ func TestStringAllDigits(t *testing.T) {
 		}
 	}
 }
+
+func TestStringAllZeros(t *testing.T) {
+
+	tst := make(map[string]bool)
+
+	tst["1234567890"] = false
+	tst["0"] = true
+	tst["."] = true
+	tst[""] = false
+	tst[".0"] = true
+	tst["0.00"] = true
+	tst["12."] = false
+	tst["00000.0"] = true
+	tst["0."] = true
+
+	for inval, expected := range tst {
+
+		got := StringAllZeros(inval, strings.Count(inval, ".") > 0)
+
+		if got != expected {
+
+			t.Fatalf("%s failed.  Input \"%s\".  Expected \"%t\".", t.Name(), inval, expected)
+		}
+	}
+
+}
