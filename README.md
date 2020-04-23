@@ -14,3 +14,9 @@ Determines whether a string is made up of all digits.  Optionally specifying if 
 `func StringAllZeros(instr string, acceptperiod bool) bool`
 
 Determines whether a string is made up of all zeros.  Optionally specifying if it accepts a period character.
+
+##### v1.2.0
+
+`func FormatDuration(dtn time.Duration) string`
+
+Formats a duration with a slightly more pleasing (to me) format.

@@ -1,7 +1,10 @@
 package mfstringutil
 
 import (
+	"fmt"
+	"strconv"
 	"strings"
+	"time"
 	"unicode/utf8"
 )
 
@@ -67,4 +70,41 @@ func StringAllZeros(instr string, acceptperiod bool) bool {
 	}
 
 	return allzeros
+}
+
+func FormatDuration(dtn time.Duration) string {
+
+	outstr := ""
+	addout := func (num, pad int, numtag string) {
+
+		if utf8.RuneCountInString(outstr) > 0 && num > 0{
+
+			outstr += " "
+		}
+
+		if num > 0 {
+
+			outstr += fmt.Sprintf("%." + strconv.Itoa(pad) + "d %s", num, numtag)
+		}
+	}
+
+	d := dtn.Round(time.Millisecond)
+	days := d / (time.Hour * 24)
+	d -= days * (time.Hour * 24)
+	hours := d / time.Hour
+	d -= hours * time.Hour
+	minutes := d / time.Minute
+	d -= minutes * time.Minute
+	seconds := d / time.Second
+	d -= seconds * time.Second
+	mseconds := d / time.Millisecond
+
+	addout(int(days), 0, "day")
+	if int(days) > 1 {outstr += "s"}
+	addout(int(hours), 0, "hr")
+	addout(int(minutes), 2, "min")
+	addout(int(seconds), 2, "sec")
+	addout(int(mseconds), 3, "ms")
+
+	return outstr
 }
